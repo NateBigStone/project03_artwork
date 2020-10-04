@@ -19,8 +19,10 @@ def create_menu():
 
     menu_class = Menu()
     menu_class.add_option('1', 'Add Artist', add_artist)
-    menu_class.add_option('2', 'Search for Artist\'s Artworks', search_artist)
+    menu_class.add_option('2', 'Search for All Artworks by an Artist', search_artist_all)
+    menu_class.add_option('3', 'Search for Available Artworks by Artist', search_artist_available)
     menu_class.add_option('T', 'Generate Test Tables', generate_test_tables)
+    menu_class.add_option('D', 'Drop Test Tables', drop_test_tables)
     menu_class.add_option('Q', 'Quit', quit_program)
 
     return menu_class
@@ -34,7 +36,7 @@ def add_artist():
         ui.message(e)
 
 
-def search_artist():
+def search_artist_all():
     try:
         artist_msg = 'Enter artist name:\n'
         art_results = ui.artist_query(artist_msg)
@@ -42,6 +44,18 @@ def search_artist():
             ui.message(ui.print_artwork(art_results))
         else:
             ui.message('No artworks found by this artist.')
+    except Exception as e:
+        ui.message(e)
+
+
+def search_artist_available():
+    try:
+        artist_msg = 'Enter artist name:\n'
+        art_results = ui.artist_query(artist_msg, False)
+        if art_results:
+            ui.message(ui.print_artwork(art_results))
+        else:
+            ui.message('No artwork matches your query.')
     except Exception as e:
         ui.message(e)
 
@@ -58,8 +72,14 @@ def generate_test_tables():
         new_artwork_1.save()
         new_artwork_2 = Artwork(artwork_name='best code ever', price=1.30, artist=2)
         new_artwork_2.save()
+        new_artwork_3 = Artwork(artwork_name='Sold Artwork', price=700.9, available=False, artist=2)
+        new_artwork_3.save()
     except Exception as e:
         ui.message(e)
+
+
+def drop_test_tables():
+    db.drop_tables([Artist, Artwork])
 
 
 def quit_program():
@@ -71,14 +91,14 @@ if __name__ == "__main__":
 
 #TODO:
 """
-functions:
-search by artist for artwork
-display all available artwork by an artist
-add a new artwork
+add a new artwork ->enter artist. is artist? ask for values. ask to save
 delete an artwork
 change availability of an artwork
+tests
 
 refactor:
-make query better for joined tables
 make it so that the artist query isn't case sensitive
+validate input: artist email, price. 
+hide admin options
+Use Pandas for printouts?
 """
