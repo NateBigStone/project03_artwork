@@ -17,5 +17,23 @@ def add_artist_info():
     return Artist(artist_name=artist_name, email=email)
 
 
+def artist_query(msg):
+    get_search = input(msg)
+    art_list = []
+    query = Artwork.select().join(Artist).where(Artist.artist_name == get_search).dicts()
+    for art in query:
+        art_list.append(art)
+    return art_list
+
+
+def print_artwork(artworks):
+    art_string = ''
+    for art in artworks:
+        art_string += \
+            f'\"{art["artwork_name"]}\"\t${art["price"]:.2f}\t' \
+            f'{"Available" if art["available"] else "Unavailable"}\n'
+    return art_string
+
+
 def message(msg):
-    print(msg)
+    print(f'\n{msg}\n')
