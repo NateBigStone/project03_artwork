@@ -1,4 +1,5 @@
 from database import *
+import re
 
 
 def display_menu_get_choice(menu):
@@ -28,6 +29,24 @@ def artist_query(msg, all_art=True):
     return art_list
 
 
+def add_artwork_info():
+    artist_name = input('Enter artist name:\n')
+    artist = Artist.get_or_none(Artist.artist_name == artist_name)
+    if not artist:
+        raise ArtistError(f'Error - "{artist_name}" not found')
+    artwork_name = input('Enter artwork name:\n')
+    price = price_check()
+    return Artwork(artwork_name=artwork_name, price=price, artist=artist.id)
+
+
+def price_check():
+    price = input('Enter artwork price:\n')
+    if not re.match(r'[1-9]\d*(?:\.\d{2})?(?=\s|$)', price):
+        message(f'"{price}" is an invalid price, please try again')
+        price_check()
+    return price
+
+
 def print_artwork(artworks):
     art_string = ''
     for art in artworks:
@@ -39,3 +58,11 @@ def print_artwork(artworks):
 
 def message(msg):
     print(f'\n{msg}\n')
+
+
+class ArtistError(Exception):
+    pass
+
+
+class ArtworkError(Exception):
+    pass
