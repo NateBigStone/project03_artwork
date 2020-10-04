@@ -39,8 +39,17 @@ def add_artwork_info():
     return Artwork(artwork_name=artwork_name, price=price, artist=artist.id)
 
 
+def delete_artwork_info():
+    artwork_name = input('Enter artwork name:\n').strip()
+    artwork = Artwork.get_or_none(Artwork.artwork_name == artwork_name)
+    if not artwork:
+        raise ArtworkError(f'Error - "{artwork_name}" not found')
+    else:
+        return artwork
+
+
 def price_check():
-    price = input('Enter artwork price:\n')
+    price = input('Enter artwork price:\n').strip()
     if not re.match(r'[1-9]\d*(?:\.\d{2})?(?=\s|$)', price):
         message(f'"{price}" is an invalid price, please try again')
         price_check()
