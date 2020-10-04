@@ -21,6 +21,7 @@ def create_menu():
     menu_class.add_option('1', 'Add Artist', add_artist)
     menu_class.add_option('2', 'Search for All Artworks by an Artist', search_artist_all)
     menu_class.add_option('3', 'Search for Available Artworks by Artist', search_artist_available)
+    menu_class.add_option('4', 'Add Artwork', add_artwork)
     menu_class.add_option('T', 'Generate Test Tables', generate_test_tables)
     menu_class.add_option('D', 'Drop Test Tables', drop_test_tables)
     menu_class.add_option('Q', 'Quit', quit_program)
@@ -32,6 +33,7 @@ def add_artist():
     try:
         new_artist = ui.add_artist_info()
         new_artist.save()
+        ui.message(f'{new_artist.artist_name} added.')
     except Exception as e:
         ui.message(e)
 
@@ -56,6 +58,15 @@ def search_artist_available():
             ui.message(ui.print_artwork(art_results))
         else:
             ui.message('No artwork matches your query.')
+    except Exception as e:
+        ui.message(e)
+
+
+def add_artwork():
+    try:
+        new_artwork = ui.add_artwork_info()
+        new_artwork.save()
+        ui.message(f'{new_artwork.artwork_name} added.')
     except Exception as e:
         ui.message(e)
 
@@ -91,14 +102,13 @@ if __name__ == "__main__":
 
 #TODO:
 """
-add a new artwork ->enter artist. is artist? ask for values. ask to save
 delete an artwork
 change availability of an artwork
 tests
 
 refactor:
 make it so that the artist query isn't case sensitive
-validate input: artist email, price. 
+validate input: artist email. 
 hide admin options
 Use Pandas for printouts?
 """
