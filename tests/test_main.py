@@ -45,10 +45,9 @@ class TestMain(unittest.TestCase):
         self.assertEqual(test_menu.get_action('1'), add_artist)
 
     """Creates a New Artist"""
-    # @patch('ui.input', return_value='Unit Test')
-    # def test_add_artist(self, input):
-    #     with self.assertRaises(IntegrityError):
-    #         add_artist()
+    @patch('ui.input', return_value='Unit Test')
+    def test_add_artist(self, input):
+        self.assertRaises(Exception, add_artist())
 
     """Search All Art"""
     def test_search_artist_all(self):
