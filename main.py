@@ -36,7 +36,8 @@ def create_menu():
 def add_artist():
     try:
         new_artist = ui.add_artist_info()
-        new_artist.save()
+        save = new_artist.save()
+        print(save)
         ui.message(f'{new_artist.artist_name} added.')
     except Exception as e:
         ui.message(e)
@@ -107,6 +108,8 @@ def generate_test_tables():
         new_artist_2.save()
         new_artist_3 = Artist(artist_name='Nick Gant', email='nick86@aol.com')
         new_artist_3.save()
+        new_artist_3 = Artist(artist_name='Unit Test', email='unit@test.com')
+        new_artist_3.save()
         new_artwork_1 = Artwork(artwork_name='Da Bomb', price=19.45, artist=1)
         new_artwork_1.save()
         new_artwork_2 = Artwork(artwork_name='best code ever', price=1.30, artist=2)
@@ -131,13 +134,3 @@ def quit_program():
 
 if __name__ == "__main__":
     main()
-
-"""
-TODO:
-tests
-refactor:
-make it so that the artist or artwork query isn't case sensitive
-validate input: artist email. 
-hide admin options
-Use Pandas for printouts?
-"""
