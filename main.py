@@ -22,6 +22,7 @@ def create_menu():
     menu_class.add_option('2', 'Search for All Artworks by an Artist', search_artist_all)
     menu_class.add_option('3', 'Search for Available Artworks by Artist', search_artist_available)
     menu_class.add_option('4', 'Add Artwork', add_artwork)
+    menu_class.add_option('5', 'Delete Artwork', delete_artwork)
     menu_class.add_option('T', 'Generate Test Tables', generate_test_tables)
     menu_class.add_option('D', 'Drop Test Tables', drop_test_tables)
     menu_class.add_option('Q', 'Quit', quit_program)
@@ -71,6 +72,17 @@ def add_artwork():
         ui.message(e)
 
 
+def delete_artwork():
+    try:
+        delete_art = ui.delete_artwork_info()
+        confirm = input(f'Delete "{delete_art.artwork_name}"? (y/n):\n').lower().strip()
+        if confirm == 'y':
+            if Artwork.delete_by_id(delete_art.id) > 0:
+                ui.message(f'{delete_art.artwork_name} deleted!')
+    except Exception as e:
+        ui.message(e)
+
+
 def generate_test_tables():
     try:
         new_artist_1 = Artist(artist_name='nate johnson', email='nate@nate.com')
@@ -85,6 +97,8 @@ def generate_test_tables():
         new_artwork_2.save()
         new_artwork_3 = Artwork(artwork_name='Sold Artwork', price=700.9, available=False, artist=2)
         new_artwork_3.save()
+        new_artwork_4 = Artwork(artwork_name='delete', price=700.9, available=False, artist=1)
+        new_artwork_4.save()
     except Exception as e:
         ui.message(e)
 
@@ -102,12 +116,11 @@ if __name__ == "__main__":
 
 #TODO:
 """
-delete an artwork
 change availability of an artwork
 tests
 
 refactor:
-make it so that the artist query isn't case sensitive
+make it so that the artist or artwork query isn't case sensitive
 validate input: artist email. 
 hide admin options
 Use Pandas for printouts?
