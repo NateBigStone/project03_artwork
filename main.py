@@ -2,6 +2,7 @@ from menu import Menu
 import ui
 from database import *
 import sys
+import logging
 
 
 def main():
@@ -120,6 +121,7 @@ def generate_test_tables():
 
 def drop_test_tables():
     db.drop_tables([Artist, Artwork])
+    logging.info('tables have been deleted')
     sys.exit("Tables Deleted")
 
 
